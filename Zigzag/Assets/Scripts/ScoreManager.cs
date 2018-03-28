@@ -20,11 +20,6 @@ public class ScoreManager : MonoBehaviour {
 		score = 0;
 		PlayerPrefs.SetInt ("score", score);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
 	void incrementScore (){
 		score += 1;

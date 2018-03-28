@@ -66,3 +66,5 @@ C:\Users\Janusz Tracz\Documents\Zigzag\Temp\bin\Debug\UnityEditor.VR.xml
 C:\Users\Janusz Tracz\Documents\Zigzag\Temp\bin\Debug\UnityEditor.iOS.Extensions.Xcode.xml
 C:\Users\Janusz Tracz\Documents\Zigzag\obj\Debug\Assembly-CSharp.dll
 C:\Users\Janusz Tracz\Documents\Zigzag\obj\Debug\Assembly-CSharp.pdb
+C:\Users\Janusz Tracz\Documents\Git\ZigzagRepo\Zigzag\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
+C:\Users\Janusz Tracz\Documents\Git\ZigzagRepo\Zigzag\obj\Debug\Assembly-CSharp.dll

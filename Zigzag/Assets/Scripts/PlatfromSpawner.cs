@@ -9,6 +9,7 @@ public class PlatfromSpawner : MonoBehaviour {
 	Vector3 lastPos;
 	float size;
 	public bool gameOver = false;
+	public GameObject cube;
 
 	// Use this for initialization
 	void Start () {
@@ -39,6 +40,7 @@ public class PlatfromSpawner : MonoBehaviour {
 
 		//Tworzenie nowej platformy
 		Instantiate(platform,pos,Quaternion.identity);
+		spawnCubeBackground (lastPos.x,lastPos.z,"x");
 
 	}
 
@@ -50,6 +52,7 @@ public class PlatfromSpawner : MonoBehaviour {
 
 		//Tworzenie nowej platformy
 		Instantiate(platform,pos,Quaternion.identity);
+		spawnCubeBackground (lastPos.x,lastPos.z,"z");
 	}
 
 	void SpawnPlatforms(){
@@ -61,6 +64,7 @@ public class PlatfromSpawner : MonoBehaviour {
 		if (rand < 3) {
 			SpawnX ();
 			SpawnDiamond ();
+
 		} else {
 			SpawnZ ();
 			SpawnDiamond ();
@@ -74,6 +78,22 @@ public class PlatfromSpawner : MonoBehaviour {
 		if (rand < 1) {
 			Instantiate (diamond, diamondPos, diamond.transform.rotation);
 		}
+	}
+
+	void spawnCubeBackground(float platformPosX, float platformPosZ, string direction){
+		float posX=0;
+		float posZ=0;
+		if (direction == "x") {
+			posX = Random.Range (platformPosX - 10, platformPosX + 10);
+			posZ = platformPosZ;
+		}
+		if (direction == "z") {
+			posX = platformPosX;
+			posZ = Random.Range (platformPosZ - 10, platformPosZ + 10);
+		}
+
+		Instantiate (cube, new Vector3 (posX, -5, posZ), Quaternion.identity);
+
 	}
 
 

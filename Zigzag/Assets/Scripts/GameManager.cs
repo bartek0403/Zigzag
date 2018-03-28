@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour {
 		UImanager.instance.GameStart ();
 		ScoreManager.instance.startScore ();
 		GameObject.Find ("PlatformSpawner").GetComponent<PlatfromSpawner> ().StartSpawning ();
+	
 
 	}
 
@@ -35,6 +36,10 @@ public class GameManager : MonoBehaviour {
 		ScoreManager.instance.stopScore ();
 		gameOver = true; 
 
+
+		if(Input.GetKeyUp(KeyCode.Escape)){
+			Application.Quit();
+		}
 	}
 
 }
