@@ -5,15 +5,14 @@ using UnityEngine;
 public class BallScript : MonoBehaviour {
 
 	//nie jest publiczne, ale pole speed bedzie sie pokazywało w edytorze
-	public static float speed = 8;
+	public static float speed = 6;
 	bool started = false;
 	bool gameOver = false;
 	Vector3 arrayVector;
 	bool goX = true;
-
 	public GameObject particle;
-
 	Rigidbody rb;
+
 
 	//uruchamiana przed startem
 	void Awake(){
@@ -31,42 +30,19 @@ public class BallScript : MonoBehaviour {
 		
 				
 	}
-
-	//Zmiana kierunku 
-	void SwitchDirection1(){
-		if (goX = true ) {
-
-			rb.AddTorque (new Vector3 (5, 0, 0));
-			goX = false;
-
-
-
-		
-
-		} else if (goX = false) {
-			rb.AddTorque (new Vector3 (0, 0, 5));
-			goX = true;
-		}
-
-
-	}
-
-
 	
 	// Update is called once per frame
 	void Update () {
 		//jeśli nie wystartowała, a mysz jest naciśnięta - nadaj prędkość
 		if (!started) {
-			if (Input.GetMouseButtonDown (0)) {
+			if (SwipeManager.instance.OnSwipe(SwipeDirection.Tap)) {
 				rb.velocity = new Vector3 (speed, 0, 0);
-				//rb.AddTorque (new Vector3 (5, 0, 0));
 				started = true;
-
 				GameManager.instance.StartGame ();
 			}
 		}
 		//Jeśli kula wyjdzie za krawędź - spada
-		if (!Physics.Raycast (transform.position, Vector3.down, 1f)) {
+		if (!Physics.Raycast (transform.position, Vector3.down, 5f) && transform.position.y<1.85) {
 			gameOver = true;
 			rb.velocity = new Vector3 (0, -5f, 0);
 
@@ -78,7 +54,7 @@ public class BallScript : MonoBehaviour {
 
 		}
 		//Zmiana kierunku przy kliknięciu
-		if (Input.GetMouseButtonDown (0) && !gameOver) {
+		if (SwipeManager.instance.OnSwipe(SwipeDirection.Tap) && !gameOver) {
 			SwitchDirection ();	
 		}
 
@@ -89,18 +65,33 @@ public class BallScript : MonoBehaviour {
 			transform.Rotate(new Vector3(0,0,-8),Space.World);;
 		}
 
+		if (SwipeManager.instance.OnSwipe (SwipeDirection.Up) && !gameOver && Physics.Raycast(transform.position,Vector3.down,1f)) {
+			rb.AddForce (Vector3.up * 6, ForceMode.Impulse);
+		}
 	}
 
 
 	void OnTriggerEnter(Collider col){
+		Debug.Log (col.gameObject.tag);
+
 		if (col.gameObject.tag == "Diamond") {
 			//Uwuchomienie efektu wizualnego podczas niszczenia diamentu
 			GameObject part = Instantiate (particle, col.gameObject.transform.position, Quaternion.identity) as GameObject;
 			Destroy (col.gameObject);
 			ScoreManager.instance.DiamondCollision ();
-			//GameObject.Find ("ScoreManager").GetComponent<ScoreManager> ().StartSpawning ();
 			Destroy (part, 1f);
+		}
 
+
+	}
+
+	void OnCollisionEnter(Collision col) {
+		if (col.gameObject.tag == "Obstacle"){
+			gameOver = true;
+			rb.velocity = Vector3.zero;
+			Camera.main.GetComponent<CameraFollow> ().gameOver = true;
+			GameObject.Find ("PlatformSpawner").GetComponent<PlatfromSpawner> ().gameOver = true;
+			GameManager.instance.GameOver ();
 		}
 	}
 }

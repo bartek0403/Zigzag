@@ -6,68 +6,124 @@ public class PlatfromSpawner : MonoBehaviour {
 
 	public GameObject platform;
 	public GameObject diamond;
+	public GameObject platformWithObstacleBig;
+	public GameObject platformWithObstacleSmallLeft;
+	public GameObject platformWithObstacleSmallRight;
+
 	Vector3 lastPos;
 	float size;
 	public bool gameOver = false;
 	public GameObject cube;
+	private bool prevPlatformHasObstacle;
+	int obstacleVariable;
 
 	// Use this for initialization
 	void Start () {
-		lastPos = platform.transform.position;
+		
+		lastPos = GameObject.Find ("PlatformBegin").transform.position;
 		size = platform.transform.localScale.x;
 
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 20; i++) 
+		{
 			SpawnPlatforms();
 		}
 	}
 
 
 	public void StartSpawning(){
+		
 		InvokeRepeating ("SpawnPlatforms", 2f, 0.2f);
 	}
+
+
 	// Update is called once per frame
 	void Update () {
-		if (GameManager.instance.gameOver == true) {
+		
+		if (GameManager.instance.gameOver == true)
+		{
 			CancelInvoke ("SpawnPlatforms");
 		}	
 	}
 
 	//Spawn nowej platformy w osi X
-	void SpawnX(){
+	void SpawnX(bool spawnObst){
+		
 		Vector3 pos = lastPos;
 		pos.x += size;
 		lastPos = pos;
 
-		//Tworzenie nowej platformy
-		Instantiate(platform,pos,Quaternion.identity);
 		spawnCubeBackground (lastPos.x,lastPos.z,"x");
 
+		if (spawnObst) 
+		{
+			if(obstacleVariable > 90 && obstacleVariable < 94)
+				Instantiate (platformWithObstacleBig, pos, Quaternion.AngleAxis(90,Vector3.up));
+			else if (obstacleVariable > 93 && obstacleVariable < 97)
+				Instantiate (platformWithObstacleSmallLeft, pos, Quaternion.AngleAxis(90,Vector3.up));
+			else if (obstacleVariable > 96 && obstacleVariable < 101)
+				Instantiate (platformWithObstacleSmallLeft, pos, Quaternion.AngleAxis(90,Vector3.up));		
+		}
+		else 
+			Instantiate(platform,pos,Quaternion.identity); 
 	}
 
 	//Spawn nowej platformy w osi Z
-	void SpawnZ(){
+	void SpawnZ(bool spawnObst){
+		
 		Vector3 pos = lastPos;
 		pos.z += size;
 		lastPos = pos;
 
-		//Tworzenie nowej platformy
-		Instantiate(platform,pos,Quaternion.identity);
 		spawnCubeBackground (lastPos.x,lastPos.z,"z");
+
+		//Tworzenie platformy z przeszkodą lub bez
+		if (spawnObst) 
+		{
+			if(obstacleVariable > 90 && obstacleVariable < 94)
+				Instantiate (platformWithObstacleBig, pos, Quaternion.identity);
+			else if (obstacleVariable > 93 && obstacleVariable < 97)
+				Instantiate (platformWithObstacleSmallLeft, pos, Quaternion.identity);
+			else if (obstacleVariable > 96 && obstacleVariable < 101)
+				Instantiate (platformWithObstacleSmallLeft, pos, Quaternion.identity);		
+		}
+		else 
+			Instantiate(platform,pos,Quaternion.identity); 
 	}
 
-	void SpawnPlatforms(){
-		if (gameOver) {
+	void SpawnPlatforms()
+		{
+		bool spawnObstacle = false;
+
+		if (gameOver) 
+			{
 			return;
-		}
+			}
+
+		obstacleVariable = Random.Range (0, 100);
+
+		if (obstacleVariable >= 90 & !prevPlatformHasObstacle) 
+		{
+			spawnObstacle = true;
+			prevPlatformHasObstacle = true;
+		} 
+		else
+			prevPlatformHasObstacle = false;
 
 		int rand = Random.Range (0, 7);
-		if (rand < 3) {
-			SpawnX ();
-			SpawnDiamond ();
 
-		} else {
-			SpawnZ ();
-			SpawnDiamond ();
+		if (rand < 3) 
+		{
+			SpawnX (spawnObstacle);
+
+			if(!spawnObstacle)
+				SpawnDiamond ();	
+		} 
+		else 
+		{
+			SpawnZ (spawnObstacle);
+
+			if(!spawnObstacle)
+				SpawnDiamond ();
 		}
 	}
 
