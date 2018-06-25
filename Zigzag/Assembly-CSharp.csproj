@@ -51,17 +51,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\CubeSpawner.cs" />
-     <Compile Include="Assets\ObstacleScript.cs" />
      <Compile Include="Assets\Scripts\BallScript.cs" />
      <Compile Include="Assets\Scripts\CameraFollow.cs" />
+     <Compile Include="Assets\Scripts\CubeSpawner.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
+     <Compile Include="Assets\Scripts\ObstacleScript.cs" />
      <Compile Include="Assets\Scripts\PlatfromSpawner.cs" />
+     <Compile Include="Assets\Scripts\PlayerSelectScript.cs" />
      <Compile Include="Assets\Scripts\ScoreManager.cs" />
      <Compile Include="Assets\Scripts\SwipeManager.cs" />
      <Compile Include="Assets\Scripts\TriggerChecker.cs" />
      <Compile Include="Assets\Scripts\UImanager.cs" />
-     <Compile Include="Assets\VegasScript.cs" />
+     <Compile Include="Assets\Scripts\VegasScript.cs" />
      <None Include="Assets\TangyTextures Free Materials\about.txt.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

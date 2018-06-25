@@ -12,7 +12,7 @@ public class PlatfromSpawner : MonoBehaviour {
 
 	Vector3 lastPos;
 	float size;
-	public bool gameOver = false;
+	public bool GameOver = false;
 	public GameObject cube;
 	private bool prevPlatformHasObstacle;
 	int obstacleVariable;
@@ -94,7 +94,7 @@ public class PlatfromSpawner : MonoBehaviour {
 		{
 		bool spawnObstacle = false;
 
-		if (gameOver) 
+		if (GameOver) 
 			{
 			return;
 			}
